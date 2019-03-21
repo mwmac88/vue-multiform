@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import StepPersonal from "./FormSteps/StepPersonal";
 import StepFiles from "./FormSteps/StepFiles";
 import StepAbout from "./FormSteps/StepAbout";
@@ -46,9 +47,13 @@ export default {
     StepFiles,
     StepAbout
   },
+  computed: {
+    ...mapGetters({
+      steps: "getInputKeys"
+    })
+  },
   data: () => ({
-    activeStep: 1,
-    steps: ["Personal", "Files", "About"]
+    activeStep: 1
   }),
   methods: {
     nextStep() {
@@ -57,9 +62,7 @@ export default {
     previousStep() {
       this.activeStep--;
     },
-    sendForm() {
-        
-    }
+    sendForm() {}
   }
 };
 </script>

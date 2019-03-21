@@ -6,7 +6,7 @@
         <v-container>
             <v-layout row wrap>
                 <v-flex
-                    v-for="(input, key, index) in formInputs"
+                    v-for="(input, key, index) in formInputs.step1"
                     :key="index"
                     xs12 
                     sm6 
@@ -14,17 +14,19 @@
                 >
                     <v-text-field
                         v-if="input.type === 'text'"
-                        :v-model="key"
+                        v-model.lazy="input.value"
                         :label="input.label"
                         :required="input.required"
                         :rules="input.validationRules"
+                        @input="updateVal([key, input.value])"
                     />
                     <v-checkbox
                         v-if="input.type === 'checkbox'"
-                        :v-model="key"
+                        v-model="input.value"
                         :label="input.label"
                         :required="input.required"
                         :rules="input.validationRules"
+                        @input="updateVal([key, input.value])"
                     />
                 </v-flex>
             </v-layout>
@@ -36,55 +38,22 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
     name: 'step-personal',
     data: () => ({
         valid: false,
-        formInputs: {
-            firstName: {
-                label: 'First name',
-                required: true,
-                validationRules: [v => !!v || 'First Name is required'],
-                type: 'text',
-            },
-            lastName: {
-                label: 'Last name',
-                required: false,
-                type: 'text',
-            },
-            email: {
-                label: 'Email',
-                required: true,
-                validationRules: [
-                    v => !!v || 'Email is required',
-                    v => /.+@.+/.test(v) || 'Email must be valid',
-                ],
-                type: 'text',
-            },
-            phoneNo: {
-                label: 'Phone Number',
-                required: false,
-                type: 'text',
-            },
-            ukResident: {
-                label: 'Do you live in the UK?',
-                required: true,
-                validationRules: [v => Boolean(v) || 'You must be a UK resident to apply!'],
-                type: 'checkbox',
-            },
-        },
     }),
     computed: {
-        formInputStates: {
-            get () {
-                return Object.keys(this.formInputs).forEach(k => this.$store.state.k);
-            },
-            set (value) {
-                Object.keys(this.formInputs).forEach(k => this.$store.dispatch('triggerUpdateField', [k, value]));
-            }
-        },
+        ...mapState({
+            formInputs: 'formInputs',
+        }),
     },
     methods: {
+        ...mapActions({
+            updateVal: 'triggerUpdateField',
+        }),
         validateStep() {
             if (this.$refs.formstep1.validate()) {
                 this.$emit('nextStep');
