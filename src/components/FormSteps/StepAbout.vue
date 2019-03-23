@@ -1,17 +1,27 @@
 <template>
     <v-form
-        ref="formstep2"
+        ref="formstep3"
         v-model="valid"
     >
-        <v-textarea
-            v-model="about"
-            name="aboutyou"
-            label="About You"
-            hint="Tell us some more about yourself"
-            required
-            :rules="[v => !!v || 'About text is required']"
-        />
-
+        <v-container>
+            <v-layout row wrap>
+                <v-flex
+                    v-for="(input, key, index) in formInputs.step3"
+                    :key="index"
+                    xs12
+                >
+                    <v-textarea
+                        v-if="input.type === 'textarea'"
+                        v-model.lazy="input.value"
+                        :label="input.label"
+                        :required="input.required"
+                        :rules="input.validationRules"
+                        :hint="input.hint"
+                        @input="updateVal(['step3', key, input.value])"
+                    />
+                </v-flex>
+            </v-layout>
+        </v-container>
         <v-btn color="primary" @click="validateStep">
             Submit
         </v-btn>
@@ -23,16 +33,26 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
     name: 'step-about',
     data: () => ({
         valid: false,
-        about: '',
     }),
+    computed: {
+        ...mapState({
+            formInputs: "formInputs",
+        }),
+    },
     methods: {
+        ...mapActions({
+            updateVal: "triggerUpdateField",
+            formComplete: "triggerCompleteForm"
+        }),
         validateStep() {
-            if (this.$refs.formstep2.validate()) {
-                this.$emit('formComplete');
+            if (this.$refs.formstep3.validate()) {
+                this.formComplete();
             }
         },
     },

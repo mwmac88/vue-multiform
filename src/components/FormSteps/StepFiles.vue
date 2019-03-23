@@ -1,39 +1,39 @@
 <template>
   <v-form ref="formstep2">
-    <v-flex xs12 ma-3>
-      <v-btn @click="openFileDialog('cvfileinput')">Upload CV
-        <v-icon right dark>cloud_upload</v-icon>
-      </v-btn>
-      <input
-        ref="cvfileinput"
-        type="file"
-        style="display:none"
-        :rules="[v => Boolean(v) || 'CV is required']"
-        required
-        @change="onFileChange('cv', $event)"
-      >
+    <v-flex
+        v-for="(input, key, index) in formInputs.step2"
+        :key="key"
+        xs12
+        ma-3
+    >
+        <v-btn
+            v-if="input.type === 'file'"
+            @click="openFileDialog(key)"
+        >
+            {{ input.btnlabel }}
+
+            <v-icon right dark>cloud_upload</v-icon>
+        </v-btn>
+        <input
+            type="file"
+            style="display:none"
+            :ref="key"
+            :rules="input.validationRules"
+            :required="input.required"
+            @change="onFileChange(key, $event)"
+        >
 
       <v-spacer/>
-
-      <v-btn @click="openFileDialog('coverfileinput')">Upload Cover Letter
-        <v-icon right dark>cloud_upload</v-icon>
-      </v-btn>
-      <input
-        ref="coverfileinput"
-        type="file"
-        style="display:none"
-        @change="onFileChange('cover', $event)"
-      >
     </v-flex>
 
     <v-spacer/>
 
-    <v-flex v-if="hasUploadedFile" xs12 ma-3>
+    <v-flex v-if="uploadedFiles" xs12 ma-3>
       <v-chip v-for="(file, index) in uploadedFiles" :key="index">
         <v-avatar class="teal">
           <v-icon>attachment</v-icon>
         </v-avatar>
-        File Uploaded: {{ file.name }}
+        File Uploaded: {{ file.value.name }}
       </v-chip>
     </v-flex>
 
@@ -58,47 +58,46 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 
 export default {
-  name: 'step-files',
+  name: "step-files",
   data: () => ({
     showDialog: false,
-    fileUploads: {
-      cv: {},
-      cover: {},
-    },
   }),
   computed: {
-    hasUploadedFile() {
-      return Object.values(this.fileUploads).some(file => file.name);
-    },
+    ...mapState({
+      formInputs: "formInputs",
+    }),
     uploadedFiles() {
-      return Object.values(this.fileUploads).filter(file => Boolean(file.name));
+        return Object.values(this.formInputs.step2).filter(files => Boolean(files.value));
     },
+    hasUploadedCV() {
+        return this.uploadedFiles.some(files => files.label === 'CV');
+    }
   },
   methods: {
     ...mapActions({
-      updateVal: 'triggerUpdateField',
+        updateVal: "triggerUpdateField"
     }),
     validateStep() {
-      if (!this.hasUploadedFile) {
-          this.showDialog = true;
+      if (!this.hasUploadedCV) {
+        this.showDialog = true;
       } else {
-          this.$emit('nextStep');
+        this.$emit("nextStep");
       }
     },
     openFileDialog(inputRef) {
-      this.$refs[inputRef].click();
+        this.$refs[inputRef][0].click();
     },
-    onFileChange(fileType, e) {
-      const fileUploaded = e.target.files || e.dataTransfer.files;
-      const fileCount = fileUploaded.length;
-      if (fileCount > 0) {
-        this.fileUploads[fileType] = fileUploaded[0];
-      }
+    onFileChange(inputKey, e) {
+        const fileUploaded = e.target.files || e.dataTransfer.files;
+        const fileCount = fileUploaded.length;
+        if (fileCount > 0) {
+            this.updateVal(['step2', inputKey, fileUploaded[0]]);
+        }
     },
-  },
+  }
 };
 </script>
 

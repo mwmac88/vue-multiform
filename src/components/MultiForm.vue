@@ -24,7 +24,7 @@
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                <StepAbout @formComplete="sendForm" @previousStep="previousStep"/>
+                <StepAbout @previousStep="previousStep"/>
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -56,13 +56,12 @@ export default {
     activeStep: 1
   }),
   methods: {
-    nextStep() {
-      this.activeStep++;
-    },
-    previousStep() {
-      this.activeStep--;
-    },
-    sendForm() {}
+      nextStep() {
+          this.activeStep++;
+      },
+      previousStep() {
+          this.activeStep--;
+      },
   }
 };
 </script>

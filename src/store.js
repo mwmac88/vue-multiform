@@ -3,11 +3,8 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-const formData = new FormData();
-
 export default new Vuex.Store({
   state: {
-    formData: formData,
     formInputs: {
       step1: {
         firstName: {
@@ -18,12 +15,14 @@ export default new Vuex.Store({
           ],
           type: 'text',
           value: '',
+          datalabel: 'first_name',
         },
         lastName: {
             label: 'Last name',
             required: false,
             type: 'text',
             value: '',
+            datalabel: 'last_name',
         },
         email: {
             label: 'Email',
@@ -34,12 +33,14 @@ export default new Vuex.Store({
             ],
             type: 'text',
             value: '',
+            datalabel: 'email',
         },
         phoneNo: {
             label: 'Phone Number',
             required: false,
             type: 'text',
             value: '',
+            datalabel: 'phone_number',
         },
         ukResident: {
             label: 'Do you live in the UK?',
@@ -49,23 +50,28 @@ export default new Vuex.Store({
             ],
             type: 'checkbox',
             value: '',
+            datalabel: 'live_in_uk',
         },
       },
       step2: {
         cv: {
           label: 'CV',
+          btnlabel: 'Upload CV',
           required: true,
           validationRules: [
             v => Boolean(v) || 'CV is required',
           ],
           type: 'file',
           value: '',
+          datalabel: 'cv',
         },
         cover: {
           label: 'Cover Letter',
+          btnlabel: 'Upload Cover Letter',
           required: false,
           type: 'file',
           value: '',
+          datalabel: 'cover_letter',
         },
       },
       step3: {
@@ -78,6 +84,7 @@ export default new Vuex.Store({
           ],
           type: 'textarea',
           value: '',
+          datalabel: 'about_you',
         },
       },
     },
@@ -87,14 +94,23 @@ export default new Vuex.Store({
   },
   mutations: {
     updateField(state, args) {
-      const [ field, value ] = [...args];
-      state[field] = value;
-    }
+      const [ step, field, newValue ] = [...args];
+      state.formInputs[step][field].value = newValue;
+    },
   },
   actions: {
     triggerUpdateField({ commit }, args) {
-      console.log(args);
       commit('updateField', args);
+    },
+    triggerCompleteForm({ state }) {
+      const formData = new FormData();
+
+      const inputData = Object.values(state.formInputs).map(step => {
+        Object.values(step).map(data => {
+          formData.set(data.datalabel, data.value);
+        });
+      })
+      // AJAX HERE
     }
   },
 });

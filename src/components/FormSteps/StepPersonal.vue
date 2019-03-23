@@ -8,8 +8,8 @@
                 <v-flex
                     v-for="(input, key, index) in formInputs.step1"
                     :key="index"
-                    xs12 
-                    sm6 
+                    xs12
+                    sm6
                     md3
                 >
                     <v-text-field
@@ -18,7 +18,7 @@
                         :label="input.label"
                         :required="input.required"
                         :rules="input.validationRules"
-                        @input="updateVal([key, input.value])"
+                        @input="updateVal(['step1', key, input.value])"
                     />
                     <v-checkbox
                         v-if="input.type === 'checkbox'"
@@ -26,7 +26,7 @@
                         :label="input.label"
                         :required="input.required"
                         :rules="input.validationRules"
-                        @input="updateVal([key, input.value])"
+                        @input="updateVal(['step1', key, input.value])"
                     />
                 </v-flex>
             </v-layout>
