@@ -1,10 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 
 Vue.use(Vuex);
 
+const API_ENDPOINT = 'https://recruitment-submissions.netsells.co.uk/api/vacancies/javascript-developer/submissions';
+const formData = new FormData();
+
 export default new Vuex.Store({
   state: {
+    formData: formData,
     formInputs: {
       step1: {
         firstName: {
@@ -102,15 +107,31 @@ export default new Vuex.Store({
     triggerUpdateField({ commit }, args) {
       commit('updateField', args);
     },
-    triggerCompleteForm({ state }) {
-      const formData = new FormData();
-
-      const inputData = Object.values(state.formInputs).map(step => {
+    triggerCompleteForm({ dispatch, state }) {
+      Object.values(state.formInputs).map(step => {
         Object.values(step).map(data => {
-          formData.set(data.datalabel, data.value);
+          if (data.value) {
+            state.formData.append(data.datalabel, data.value);
+          }
         });
       })
-      // AJAX HERE
+      dispatch('postFormData');
+    },
+    postFormData({ state }) {
+      axios({
+          method: 'post',
+          url: API_ENDPOINT,
+          data: state.formData,
+          config: { headers: { 'X-Requested-With': 'XMLHttpRequest' } },
+      })
+      .then((response) => {
+        //handle success
+        console.log(response);
+      })
+      .catch((response) => {
+          //handle error
+          console.log(response);
+      });
     }
   },
 });

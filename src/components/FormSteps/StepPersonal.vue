@@ -26,7 +26,7 @@
                         :label="input.label"
                         :required="input.required"
                         :rules="input.validationRules"
-                        @input="updateVal(['step1', key, input.value])"
+                        @change="updateVal(['step1', key, input.value])"
                     />
                 </v-flex>
             </v-layout>
