@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiForm.vue renders vue component successfully 1`] = `
+<v-container>
+  <v-layout
+    text-xs-center=""
+    wrap=""
+  >
+    <v-flex
+      xs12=""
+    >
+      <v-card
+        class="elevation-12"
+      >
+        <v-stepper>
+          <v-stepper-header />
+           
+          <v-stepper-items>
+            <v-stepper-content
+              step="1"
+            >
+              <steppersonal-stub />
+            </v-stepper-content>
+             
+            <v-stepper-content
+              step="2"
+            >
+              <stepfiles-stub />
+            </v-stepper-content>
+             
+            <v-stepper-content
+              step="3"
+            >
+              <stepabout-stub />
+            </v-stepper-content>
+          </v-stepper-items>
+        </v-stepper>
+      </v-card>
+    </v-flex>
+  </v-layout>
+</v-container>
+`;
