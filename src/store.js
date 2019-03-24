@@ -4,6 +4,7 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
+const URL_REGEX = /^((https?|http):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
 const API_ENDPOINT = 'https://recruitment-submissions.netsells.co.uk/api/vacancies/javascript-developer/submissions';
 const formData = new FormData();
 
@@ -47,6 +48,17 @@ export default new Vuex.Store({
             value: '',
             datalabel: 'phone_number',
         },
+        gitProfile: {
+          label: 'Git Profile',
+          required: true,
+          validationRules: [
+            v => Boolean(v) || 'Git Profile is required',
+            v => URL_REGEX.test(v) || 'Git Profile must be a valid url',
+          ],
+          type: 'text',
+          value: '',
+          datalabel: 'git_profile',
+        },
         ukResident: {
             label: 'Do you live in the UK?',
             required: true,
@@ -86,6 +98,7 @@ export default new Vuex.Store({
           hint: 'Tell us some more about yourself',
           validationRules: [
             v => Boolean(v) || 'About text is required',
+            v => (v && v.length >= 100) || 'About text must be at least 100 characters',
           ],
           type: 'textarea',
           value: '',
@@ -111,6 +124,7 @@ export default new Vuex.Store({
       Object.values(state.formInputs).map(step => {
         Object.values(step).map(data => {
           if (data.value) {
+            const val = typeof data.value === 'boolean' ? new Boolean(true) : data.value;
             state.formData.append(data.datalabel, data.value);
           }
         });

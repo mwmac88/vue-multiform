@@ -13,6 +13,8 @@
                     <v-textarea
                         v-if="input.type === 'textarea'"
                         v-model.lazy="input.value"
+                        counter
+                        auto-grow
                         :label="input.label"
                         :required="input.required"
                         :rules="input.validationRules"
