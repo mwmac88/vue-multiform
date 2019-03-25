@@ -31,6 +31,25 @@
         <v-btn flat @click="$emit('previousStep')">
             Back
         </v-btn>
+
+        <v-dialog v-model="showDialog" width="500">
+            <v-card>
+                <v-card-title class="headline grey lighten-2" primary-title>
+                    <h3>Form Errors</h3>
+                </v-card-title>
+
+                <v-card-text>
+                    <p>Please address the following errors in the form</p>
+                    <v-spacer />
+                    <div v-for="(error, index) in formErrors" :key="index">
+                        {{ error[0] }}
+                    </div>
+                    <v-btn @click="showDialog = false">
+                        OK
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-form>
 </template>
 
@@ -41,10 +60,12 @@ export default {
     name: 'step-about',
     data: () => ({
         valid: false,
+        showDialog: false,
     }),
     computed: {
         ...mapState({
             formInputs: 'formInputs',
+            formErrors: 'formErrors',
         }),
     },
     methods: {
@@ -58,6 +79,11 @@ export default {
             }
         },
     },
+    watch: {
+        formErrors(newVal, oldVal) {
+            this.showDialog = true;
+        }
+    }
 };
 </script>
 

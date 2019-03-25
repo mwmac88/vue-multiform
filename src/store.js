@@ -106,6 +106,7 @@ export default new Vuex.Store({
         },
       },
     },
+    formErrors: [],
   },
   getters: {
     getInputKeys: state => Object.keys(state.formInputs),
@@ -138,13 +139,11 @@ export default new Vuex.Store({
           data: state.formData,
           config: { headers: { 'X-Requested-With': 'XMLHttpRequest' } },
       })
-      .then((response) => {
-        //handle success
-        console.log(response);
+      .then(response => {
+        // HANDLE SUCCESS
       })
-      .catch((response) => {
-          //handle error
-          console.log(response);
+      .catch(error => {
+          state.formErrors = error.response.data.errors;
       });
     },
   },
