@@ -125,10 +125,10 @@ export default new Vuex.Store({
         Object.values(step).map(data => {
           if (data.value) {
             const val = typeof data.value === 'boolean' ? new Boolean(true) : data.value;
-            state.formData.append(data.datalabel, data.value);
+            state.formData.append(data.datalabel, val);
           }
         });
-      })
+      });
       dispatch('postFormData');
     },
     postFormData({ state }) {
@@ -146,6 +146,6 @@ export default new Vuex.Store({
           //handle error
           console.log(response);
       });
-    }
+    },
   },
 });

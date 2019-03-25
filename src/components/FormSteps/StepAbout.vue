@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 
 export default {
     name: 'step-about',
@@ -44,13 +44,13 @@ export default {
     }),
     computed: {
         ...mapState({
-            formInputs: "formInputs",
+            formInputs: 'formInputs',
         }),
     },
     methods: {
         ...mapActions({
-            updateVal: "triggerUpdateField",
-            formComplete: "triggerCompleteForm"
+            updateVal: 'triggerUpdateField',
+            formComplete: 'triggerCompleteForm',
         }),
         validateStep() {
             if (this.$refs.formstep3.validate()) {

@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex'
+import Vuex from 'vuex';
 import MultiForm from '@/components/MultiForm.vue';
 import { getters } from '../../src/store';
 
@@ -14,7 +14,7 @@ describe('MultiForm.vue', () => {
   beforeEach(() => {
     getters = {
       getInputKeys: jest.fn(),
-    }
+    };
     store = new Vuex.Store({
       getters,
     });
