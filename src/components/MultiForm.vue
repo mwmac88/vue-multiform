@@ -49,14 +49,14 @@ export default {
     StepFiles,
     StepAbout,
   },
+  data: () => ({
+    activeStep: 1,
+  }),
   computed: {
     ...mapGetters({
       steps: 'getInputKeys',
     }),
   },
-  data: () => ({
-    activeStep: 1,
-  }),
   methods: {
       nextStep() {
           this.activeStep++;

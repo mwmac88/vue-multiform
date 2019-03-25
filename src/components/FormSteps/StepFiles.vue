@@ -2,7 +2,7 @@
     <v-form ref="formstep2">
         <v-flex
             v-for="(input, key, index) in formInputs.step2"
-            :key="key"
+            :key="index"
             xs12
             ma-3
         >
