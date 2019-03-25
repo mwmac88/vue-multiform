@@ -10,7 +10,6 @@
                     :key="index"
                     xs12
                     sm6
-                    md3
                 >
                     <v-text-field
                         v-if="input.type === 'text'"

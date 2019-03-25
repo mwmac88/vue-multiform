@@ -12,7 +12,7 @@
                                 :complete="index + 1 < activeStep"
                                 :step="index + 1"
                             >
-                                {{ step }}
+                                Step {{ index + 1 }}
                             </v-stepper-step>
                         </v-stepper-header>
 
