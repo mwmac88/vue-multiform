@@ -684,15 +684,6 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@netsells/eslint-config@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@netsells/eslint-config/-/eslint-config-1.8.0.tgz#21269dc9a4d570ac264918fb306a11c539bed334"
-  integrity sha512-56Lg/+eXNPuCtg8b2Lf5d3In7bjVXRt1EDsBpIQPpeh5+xIQdIL9joVNTzcZm8iyc1iTv43NLOz63VQD5U0+sA==
-  dependencies:
-    eslint "^4.19.1"
-    eslint-plugin-require-jsdoc-except "^1.1.0"
-    eslint-plugin-vue "^4.5.0"
-
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
@@ -3444,7 +3435,7 @@ eslint-plugin-promise@^4.0.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.0.1.tgz#2d074b653f35a23d1ba89d8e976a985117d1c6a2"
   integrity sha512-Si16O0+Hqz1gDHsys6RtFRrW7cCTB6P7p3OJmKp3Y3dxpQE2qwOA7d3xnV+0mBmrPoi0RBnxlCKvqu70te6wjg==
 
-eslint-plugin-require-jsdoc-except@^1.1.0, eslint-plugin-require-jsdoc-except@^1.3.0:
+eslint-plugin-require-jsdoc-except@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-require-jsdoc-except/-/eslint-plugin-require-jsdoc-except-1.3.0.tgz#43bd939efac3d54bfc66c63ad9a0209843ac0fbe"
   integrity sha512-SOJdUeSJh0q/TEu51fopd4qxtxf+sDBFFpAGBta/mxZ3OCW7sxyOXLUQv2s5SmAv51q7XbIWv7sRZvfe/sSQCg==
@@ -3457,7 +3448,7 @@ eslint-plugin-standard@^4.0.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-4.0.0.tgz#f845b45109c99cd90e77796940a344546c8f6b5c"
   integrity sha512-OwxJkR6TQiYMmt1EsNRMe5qG3GsbjlcOhbGUBY4LtavF9DsLaTcoR+j2Tdjqi23oUwKNUqX7qcn5fPStafMdlA==
 
-eslint-plugin-vue@^4.5.0, eslint-plugin-vue@^4.7.1:
+eslint-plugin-vue@^4.7.1:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-4.7.1.tgz#c829b9fc62582c1897b5a0b94afd44ecca511e63"
   integrity sha512-esETKhVMI7Vdli70Wt4bvAwnZBJeM0pxVX9Yb0wWKxdCJc2EADalVYK/q2FzMw8oKN0wPMdqVCKS8kmR89recA==
