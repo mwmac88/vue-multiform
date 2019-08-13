@@ -5,7 +5,7 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const URL_REGEX = /^((https?|http):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
-const API_ENDPOINT = '/';
+const API_ENDPOINT = `https://priceless-goldwasser-b8eb95.netlify.com/.netlify/functions/apply`;
 const formData = new FormData();
 
 export default new Vuex.Store({
@@ -138,7 +138,7 @@ export default new Vuex.Store({
         url: API_ENDPOINT,
         data: {
           'form-name': 'application-submission',
-          ...state.formData,
+          'form-data': JSON.stringify(...state.formData),
         },
         config: {
           headers: {
