@@ -5,7 +5,7 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const URL_REGEX = /^((https?|http):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
-const API_ENDPOINT = 'https://recruitment-submissions.netsells.co.uk/api/vacancies/javascript-developer/submissions';
+const API_ENDPOINT = '/';
 const formData = new FormData();
 
 export default new Vuex.Store({
@@ -24,29 +24,29 @@ export default new Vuex.Store({
           datalabel: 'first_name',
         },
         lastName: {
-            label: 'Last name',
-            required: false,
-            type: 'text',
-            value: '',
-            datalabel: 'last_name',
+          label: 'Last name',
+          required: false,
+          type: 'text',
+          value: '',
+          datalabel: 'last_name',
         },
         email: {
-            label: 'Email',
-            required: true,
-            validationRules: [
-                v => Boolean(v) || 'Email is required',
-                v => /.+@.+/.test(v) || 'Email must be valid',
-            ],
-            type: 'text',
-            value: '',
-            datalabel: 'email',
+          label: 'Email',
+          required: true,
+          validationRules: [
+            v => Boolean(v) || 'Email is required',
+            v => /.+@.+/.test(v) || 'Email must be valid',
+          ],
+          type: 'text',
+          value: '',
+          datalabel: 'email',
         },
         phoneNo: {
-            label: 'Phone Number',
-            required: false,
-            type: 'text',
-            value: '',
-            datalabel: 'phone_number',
+          label: 'Phone Number',
+          required: false,
+          type: 'text',
+          value: '',
+          datalabel: 'phone_number',
         },
         gitProfile: {
           label: 'Git Profile',
@@ -60,14 +60,14 @@ export default new Vuex.Store({
           datalabel: 'git_profile',
         },
         ukResident: {
-            label: 'Do you live in the UK?',
-            required: true,
-            validationRules: [
-              v => Boolean(v) || 'You must be a UK resident to apply!',
-            ],
-            type: 'checkbox',
-            value: '',
-            datalabel: 'live_in_uk',
+          label: 'Do you live in the UK?',
+          required: true,
+          validationRules: [
+            v => Boolean(v) || 'You must be a UK resident to apply!',
+          ],
+          type: 'checkbox',
+          value: '',
+          datalabel: 'live_in_uk',
         },
       },
       step2: {
@@ -125,7 +125,7 @@ export default new Vuex.Store({
       Object.values(state.formInputs).map(step => {
         Object.values(step).map(data => {
           if (data.value) {
-            const val = typeof data.value === 'boolean' ? new Boolean(true) : data.value;
+            const val = typeof data.value === 'boolean' ? true : data.value;
             state.formData.append(data.datalabel, val);
           }
         });
@@ -134,17 +134,25 @@ export default new Vuex.Store({
     },
     postFormData({ state }) {
       axios({
-          method: 'post',
-          url: API_ENDPOINT,
-          data: state.formData,
-          config: { headers: { 'X-Requested-With': 'XMLHttpRequest' } },
+        method: 'post',
+        url: API_ENDPOINT,
+        data: {
+          'form-name': 'application-submission',
+          ...state.formData,
+        },
+        config: {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        },
       })
-      .then(response => {
+        .then(response => {
         // HANDLE SUCCESS
-      })
-      .catch(error => {
+          console.log('RESPONSE', response);
+        })
+        .catch(error => {
           state.formErrors = error.response.data.errors;
-      });
+        });
     },
   },
 });
