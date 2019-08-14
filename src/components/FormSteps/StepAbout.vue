@@ -22,7 +22,7 @@
 
     <v-btn flat @click="$emit('previousStep')">Back</v-btn>
 
-    <v-dialog v-model="showDialog" width="500">
+    <v-dialog v-model="showErrorDialog" width="500">
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>
           <h3>Form Errors</h3>
@@ -32,8 +32,21 @@
           <p>Please address the following errors in the form</p>
           <v-spacer />
           <div v-for="(error, index) in formErrors" :key="index">{{ error[0] }}</div>
-          <div v-for="(success, index) in formSuccess" :key="index">{{ success[0] }}</div>
           <v-btn @click="showDialog = false">OK</v-btn>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showSuccessDialog" width="500">
+      <v-card>
+        <v-card-title class="headline green lighten-2" primary-title>
+          <h3>Success</h3>
+        </v-card-title>
+
+        <v-card-text>
+          <p>Thanks {{ formInputs.step1.firstName.value }}! You have successfully submitted your application</p>
+          <v-spacer />
+          <v-btn @click="showDialog = false">Done</v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -47,7 +60,8 @@ export default {
   name: 'step-about',
   data: () => ({
     valid: false,
-    showDialog: false
+    showErrorDialog: false,
+    showSuccessDialog: false
   }),
   computed: {
     ...mapState({
@@ -69,10 +83,10 @@ export default {
   },
   watch: {
     formErrors(newVal, oldVal) {
-      this.showDialog = true;
+      this.showErrorDialog = true;
     },
     formSuccess(newVal, oldVal) {
-      this.showDialog = true;
+      this.showSuccessDialog = true;
     }
   }
 };
