@@ -24,7 +24,7 @@
 
     <v-dialog v-model="showErrorDialog" width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
+        <v-card-title class="headline red lighten-2" primary-title>
           <h3>Form Errors</h3>
         </v-card-title>
 
@@ -32,7 +32,7 @@
           <p>Please address the following errors in the form</p>
           <v-spacer />
           <div v-for="(error, index) in formErrors" :key="index">{{ error[0] }}</div>
-          <v-btn @click="showDialog = false">OK</v-btn>
+          <v-btn @click="showErrorDialog = false">OK</v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -46,7 +46,7 @@
         <v-card-text>
           <p>Thanks {{ formInputs.step1.firstName.value }}! You have successfully submitted your application</p>
           <v-spacer />
-          <v-btn @click="showDialog = false">Done</v-btn>
+          <v-btn class="blue" @click="showSuccessDialog = false">Done</v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>
