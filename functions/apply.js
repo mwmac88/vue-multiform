@@ -1,3 +1,4 @@
+const Busboy = require('busboy');
 const headers = {
   'Access-Control-Allow-Origin': '*', // better change this for production
   'Access-Control-Allow-Methods': 'POST',
@@ -5,6 +6,9 @@ const headers = {
 };
 
 exports.handler = function(event, context, callback) {
+  var contentType = event.headers['Content-Type'] || event.headers['content-type'];
+  var bb = new Busboy({ headers: { 'content-type': contentType } });
+
   // only allow POST requests
   if (event.httpMethod !== 'POST') {
     return callback(null, {
@@ -15,12 +19,26 @@ exports.handler = function(event, context, callback) {
     });
   }
 
-  // parse the body to JSON so we can use it in JS
-  const payload = JSON.parse(event.body);
+  bb.on('field', (fieldname, val) => console.log('Field [%s]: value: %j', fieldname, val))
+    .on('finish', () => {
+      console.log('Done parsing form!');
+      // context.succeed({ statusCode: 200, body: 'all done', headers });
+      callback(null, {
+        statusCode: 200,
+        headers,
+        body: 'DONE'
+      });
+    })
+    .on('error', err => {
+      console.log('failed', err);
+      // context.fail({ statusCode: 500, body: err, headers });
+    });
 
-  callback(null, {
-    statusCode: 200,
-    headers,
-    body: payload,
-  });
+  bb.end(event.body);
+
+  // callback(null, {
+  //   statusCode: 200,
+  //   headers,
+  //   body: 'DONE'
+  // });
 }

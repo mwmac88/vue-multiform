@@ -32,6 +32,7 @@
           <p>Please address the following errors in the form</p>
           <v-spacer />
           <div v-for="(error, index) in formErrors" :key="index">{{ error[0] }}</div>
+          <div v-for="(success, index) in formSuccess" :key="index">{{ success[0] }}</div>
           <v-btn @click="showDialog = false">OK</v-btn>
         </v-card-text>
       </v-card>
@@ -51,7 +52,8 @@ export default {
   computed: {
     ...mapState({
       formInputs: 'formInputs',
-      formErrors: 'formErrors'
+      formErrors: 'formErrors',
+      formSuccess: 'formSuccess',
     })
   },
   methods: {
@@ -67,6 +69,9 @@ export default {
   },
   watch: {
     formErrors(newVal, oldVal) {
+      this.showDialog = true;
+    },
+    formSuccess(newVal, oldVal) {
       this.showDialog = true;
     }
   }

@@ -5,7 +5,7 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const URL_REGEX = /^((https?|http):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
-const API_ENDPOINT = `https://priceless-goldwasser-b8eb95.netlify.com/.netlify/functions/apply`;
+const API_ENDPOINT = `${process.env.VUE_APP_ROOT}/.netlify/functions/apply`;
 const formData = new FormData();
 
 export default new Vuex.Store({
@@ -106,6 +106,7 @@ export default new Vuex.Store({
         },
       },
     },
+    formSuccess: [],
     formErrors: [],
   },
   getters: {
@@ -124,34 +125,36 @@ export default new Vuex.Store({
     triggerCompleteForm({ dispatch, state }) {
       Object.values(state.formInputs).map(step => {
         Object.values(step).map(data => {
-          if (data.value) {
-            const val = typeof data.value === 'boolean' ? true : data.value;
-            state.formData.append(data.datalabel, val);
-          }
+          console.log(data);
+          // if (data.value) {
+          // const val = typeof data.value === 'boolean' ? new Boolean(true) : data.value;
+          state.formData.append(data.datalabel, data.value);
+          // }
         });
       });
       dispatch('postFormData');
     },
     postFormData({ state }) {
+      for (var pair of state.formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
       axios({
         method: 'post',
         url: API_ENDPOINT,
-        data: {
-          'form-name': 'application-submission',
-          'form-data': JSON.stringify(...state.formData),
-        },
+        data: state.formData,
         config: {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'multipart/form-data'
           }
         },
       })
         .then(response => {
         // HANDLE SUCCESS
           console.log('RESPONSE', response);
+          state.formSuccess = response;
         })
         .catch(error => {
-          state.formErrors = error.response.data.errors;
+          state.formErrors = error.response;
         });
     },
   },

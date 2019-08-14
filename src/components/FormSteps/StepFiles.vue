@@ -52,7 +52,7 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'step-files"',
+  name: 'step-files',
   data: () => ({
     showDialog: false
   }),
